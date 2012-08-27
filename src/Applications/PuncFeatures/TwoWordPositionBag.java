@@ -30,9 +30,9 @@ public class TwoWordPositionBag extends FeatureType {
     
     static final int K = 4;
 
-	public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
+    public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
         ArrayList<String> obs = new ArrayList<String>();
-		for (int i = segStart; i <= segEnd; i++) {
+        for (int i = segStart; i <= segEnd; i++) {
             for (int j = -K; j < K; j++) {
                 for (int k = j + 1; k <= K; k++) {
                     if (i + j >= 0 && i + j <= seq.length() && i + k >= 0 && i + k <= seq.length()) {
@@ -45,6 +45,6 @@ public class TwoWordPositionBag extends FeatureType {
     }
 
     public int order() {
-		return 0;
-	}
+        return 0;
+    }
 }
