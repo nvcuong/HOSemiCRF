@@ -31,7 +31,7 @@ public class FirstOrderTransitionWord extends FeatureType {
     public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
         ArrayList<String> obs = new ArrayList<String>();
         if (segStart >= 1) {
-			for (int i = segStart; i <= segEnd; i++) {
+            for (int i = segStart; i <= segEnd; i++) {
                 obs.add("E1W." + seq.x(i));
             }
         }
