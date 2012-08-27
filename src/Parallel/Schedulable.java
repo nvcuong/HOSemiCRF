@@ -30,7 +30,7 @@ public interface Schedulable {
 	 * @param taskID ID of the task
 	 * @return Partial result
 	 */
-	 public Object compute(int taskID); //can do synchronized update here if partial result takes too much memory
+	public Object compute(int taskID); //can do synchronized update here if partial result takes too much memory
 
 	/**
 	 * Return the total number of tasks.
