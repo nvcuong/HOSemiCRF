@@ -30,43 +30,43 @@ import java.text.*;
  */
 public class Scorer {
 
-	String[][] labels; // True labels
+    String[][] labels; // True labels
     String[][] predicted; // Predicted labels
 
-	/**
-	 * Construct a scorer with true data, predicted data, and label map.
-	 * @param trueData List of correct sequences
-	 * @param predictedData List of predicted sequences
-	 * @param labelmap Label map
-	 * @param RM_SUFFIX If set to true, suffixes of labels after '-' will be removed
-	 */
-	public Scorer(ArrayList trueData, ArrayList predictedData, LabelMap labelmap, boolean RM_SUFFIX) {
-		labels = new String[trueData.size()][];
-		for (int i = 0; i < trueData.size(); i++) {
-			DataSequence seq = (DataSequence) trueData.get(i);
-			labels[i] = labelmap.revArray(seq.labels);
-		}
-		
-		predicted = new String[predictedData.size()][];
-		for (int i = 0; i < predictedData.size(); i++) {
-			DataSequence seq = (DataSequence) predictedData.get(i);
-			predicted[i] = labelmap.revArray(seq.labels);
-		}
-		
-		if (RM_SUFFIX) {
-			removeSuffix(labels);
-			removeSuffix(predicted);
-		}
+    /**
+     * Construct a scorer with true data, predicted data, and label map.
+     * @param trueData List of correct sequences
+     * @param predictedData List of predicted sequences
+     * @param labelmap Label map
+     * @param RM_SUFFIX If set to true, suffixes of labels after '-' will be removed
+     */
+    public Scorer(ArrayList trueData, ArrayList predictedData, LabelMap labelmap, boolean RM_SUFFIX) {
+        labels = new String[trueData.size()][];
+        for (int i = 0; i < trueData.size(); i++) {
+            DataSequence seq = (DataSequence) trueData.get(i);
+            labels[i] = labelmap.revArray(seq.labels);
+        }
+        
+        predicted = new String[predictedData.size()][];
+        for (int i = 0; i < predictedData.size(); i++) {
+            DataSequence seq = (DataSequence) predictedData.get(i);
+            predicted[i] = labelmap.revArray(seq.labels);
+        }
+        
+        if (RM_SUFFIX) {
+            removeSuffix(labels);
+            removeSuffix(predicted);
+        }
     }
-	
-	/**
-	 * Print the scores based on the correct phrases.
-	 * @return F1 score
-	 */
-	public double phraseScore() {
+    
+    /**
+     * Print the scores based on the correct phrases.
+     * @return F1 score
+     */
+    public double phraseScore() {
         Hashtable<String, Integer> labelht = new Hashtable<String, Integer>();
         Vector<String> labs = new Vector<String>();
-		collectLabels(labels, predicted, labelht, labs);
+        collectLabels(labels, predicted, labelht, labs);
 
         double nTokens = 0;
         double nMatched = 0;
@@ -159,36 +159,36 @@ public class Scorer {
         return ratio(2 * nTotCorrect, nTotPredicted + nTotPhrase);
     }
 	
-	/**
-	 * Print the scores based on the correct tokens.
-	 * @return F1 score
-	 */
-	public double tokenScore() {
+    /**
+     * Print the scores based on the correct tokens.
+     * @return F1 score
+     */
+    public double tokenScore() {
         Hashtable<String, Integer> labelht = new Hashtable<String, Integer>();
         Vector<String> labs = new Vector<String>();
-		collectLabels(labels, predicted, labelht, labs);
+        collectLabels(labels, predicted, labelht, labs);
 
         double nTokens = 0;
         double nMatched = 0;
-
-		double[] nToken = new double[labelht.size()];
+        
+        double[] nToken = new double[labelht.size()];
         double[] nPredicted = new double[labelht.size()];
         double[] nCorrect = new double[labelht.size()];
         for (int s = 0; s < labels.length; s++) {
             for (int t = 0; t < labels[s].length; t++) {
-				nTokens++;
+                nTokens++;
                 if (labels[s][t].equals(predicted[s][t])) {
                     nMatched++;
-					if (!labels[s][t].equals("O")) {
-						nCorrect[labelht.get(labels[s][t])]++;
-					}
+                    if (!labels[s][t].equals("O")) {
+                        nCorrect[labelht.get(labels[s][t])]++;
+                    }
                 }
-				if (!labels[s][t].equals("O")) {
-					nToken[labelht.get(labels[s][t])]++;
+                if (!labels[s][t].equals("O")) {
+                    nToken[labelht.get(labels[s][t])]++;
                 }
-				if (!predicted[s][t].equals("O")) {
-					nPredicted[labelht.get(predicted[s][t])]++;
-				}
+                if (!predicted[s][t].equals("O")) {
+                    nPredicted[labelht.get(predicted[s][t])]++;
+                }
             }
         }
 
@@ -217,9 +217,9 @@ public class Scorer {
         System.out.println(table);
         return ratio(2 * nTotCorrect, nTotPredicted + nTotToken);
     }
-	
-	private void collectLabels(String[][] labels, String[][] predicted, Hashtable<String,Integer> labelht, Vector<String> labs) {
-		for (int s = 0; s < labels.length; s++) {
+    
+    private void collectLabels(String[][] labels, String[][] predicted, Hashtable<String,Integer> labelht, Vector<String> labs) {
+        for (int s = 0; s < labels.length; s++) {
             for (int t = 0; t < labels[s].length; t++) {
                 if (!labels[s][t].equals("O") && !labelht.containsKey(labels[s][t])) {
                     labelht.put(labels[s][t], labelht.size());
@@ -236,9 +236,9 @@ public class Scorer {
         for (int i = 0; i < labs.size(); i++) {
             labelht.put(labs.get(i), i);
         }
-	}
+    }
 	
-	private String strRatio(double a, double b) {
+    private String strRatio(double a, double b) {
         double r = 0;
         if (b != 0) {
             r = 100 * a / b;
@@ -262,14 +262,14 @@ public class Scorer {
         return s;
     }
 	
-	private void removeSuffix(String[][] arr) {
-		for (int i = 0; i < arr.length; i++) {
-			for (int j = 0; j < arr[i].length; j++) {
-				if (arr[i][j].lastIndexOf('-') != -1) {
-					arr[i][j] = arr[i][j].substring(0, arr[i][j].lastIndexOf('-'));
-				}
-			}
-		}
+    private void removeSuffix(String[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j].lastIndexOf('-') != -1) {
+                    arr[i][j] = arr[i][j].substring(0, arr[i][j].lastIndexOf('-'));
+                }
+            }
+        }
     }
 }
 
@@ -292,7 +292,7 @@ class DisplayTable {
         rows.add(row);
     }
 	
-	String format(String s, int w, String align) {
+    String format(String s, int w, String align) {
         int n = w - s.length();
         if (align == "l") {//align to the left
             for (int i = 0; i < n; i++) {
