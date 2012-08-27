@@ -28,7 +28,7 @@ import HOSemiCRF.*;
  */
 public class ThirdOrderTransitionWord extends FeatureType {
 	
-	public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
+    public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
         ArrayList<String> obs = new ArrayList<String>();
         if (segStart >= 3) {
             for (int i = segStart; i <= segEnd; i++) {
