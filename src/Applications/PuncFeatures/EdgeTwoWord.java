@@ -28,7 +28,7 @@ import HOSemiCRF.*;
  */
 public class EdgeTwoWord extends FeatureType {
 	
-	public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
+    public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
         ArrayList<String> obs = new ArrayList<String>();
         if (segStart > 0) {
             obs.add("ETW." + seq.x(segStart - 1) + "." + seq.x(segStart));
@@ -36,7 +36,7 @@ public class EdgeTwoWord extends FeatureType {
         return obs;
     }
 	
-	public int order() {
+    public int order() {
         return 1;
     }
 }
