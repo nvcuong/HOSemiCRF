@@ -91,8 +91,8 @@ public class Scheduler {
             threads[i].join();
         }
     }
-
-	// Simple test program
+    
+    // Simple test program
     public static void main(String[] args) throws Exception {
         
         class SimpleTask implements Schedulable {
