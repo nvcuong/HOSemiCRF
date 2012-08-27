@@ -29,27 +29,27 @@ import HOSemiCRF.*;
  */
 public class PuncConverter {
 	
-	/**
-	 * Convert punctuations of a dataset.
-	 * @param inFilename Name of the original dataset file
-	 * @param outFilename Name of the new dataset file
-	 */
-	public static void convert(String inFilename, String outFilename) throws Exception {
+    /**
+     * Convert punctuations of a dataset.
+     * @param inFilename Name of the original dataset file
+     * @param outFilename Name of the new dataset file
+     */
+    public static void convert(String inFilename, String outFilename) throws Exception {
         LabelMap labelmap = new LabelMap();
         DataSet data = readInFile(inFilename, labelmap);
         data.writeToFile(outFilename);
     }
 
-	/**
-	 * Read the original file and convert labels.
-	 * @param filename Name of the input file
-	 * @param labelmap Label map
-	 * @return The training data with new labels
-	 */
+    /**
+     * Read the original file and convert labels.
+     * @param filename Name of the input file
+     * @param labelmap Label map
+     * @return The training data with new labels
+     */
     static DataSet readInFile(String filename, LabelMap labelmap) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
-		
-		ArrayList td = new ArrayList();
+        
+        ArrayList td = new ArrayList();
         ArrayList<String> inps = new ArrayList<String>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;
@@ -74,18 +74,18 @@ public class PuncConverter {
         }
 
         in.close();
-		return new DataSet(td);
+        return new DataSet(td);
     }
 
-	/**
-	 * Change the labels of a sequence.
-	 * @param labels Label sequence
-	 */
+    /**
+     * Change the labels of a sequence.
+     * @param labels Label sequence
+     */
     static void changeLabel(ArrayList<String> labels) {
         for (int i = 0; i < labels.size(); i++) {
             if (labels.get(i).matches("[,.!?]")) {
                 String last = labels.get(i);
-				int j = i;
+                int j = i;
                 while (j > 0 && labels.get(j-1).equals("O")) {
                     j--;
                 }
