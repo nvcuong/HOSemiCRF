@@ -26,19 +26,19 @@ package HOSemiCRF;
 public class FeatureIndex {
 
     int obsID; // ID of the observation part
-	int patID; // ID of the pattern part
+    int patID; // ID of the pattern part
 
-	/**
-	 * Construct a feature index from observation and pattern IDs.
-	 * @param obsID Observation ID
-	 * @param patID Pattern ID
-	 */
+    /**
+     * Construct a feature index from observation and pattern IDs.
+     * @param obsID Observation ID
+     * @param patID Pattern ID
+     */
     public FeatureIndex(int obsID, int patID) {
-		this.obsID = obsID;
-		this.patID = patID;
+        this.obsID = obsID;
+        this.patID = patID;
     }
-	
-	@Override
+    
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -53,8 +53,8 @@ public class FeatureIndex {
     @Override
     public int hashCode() {
         int result = 23;
-		result = result*31 + obsID;
-		result = result*31 + patID;
-		return result;
+        result = result*31 + obsID;
+        result = result*31 + patID;
+        return result;
     }
 }
