@@ -35,19 +35,19 @@ public class ReferenceTagger {
     LabelMap labelmap = new LabelMap(); // Label map
     String configFile; // Configuration filename
 
-	/**
-	 * Construct a tagger from a configuration file.
-	 * @param filename Name of configuration file
-	 */
-	public ReferenceTagger(String filename) {
-		configFile = filename;
-	}
-	
-	/**
-	 * Read the training file.
-	 * @param filename Name of the training file
-	 * @return The training data
-	 */
+    /**
+     * Construct a tagger from a configuration file.
+     * @param filename Name of configuration file
+     */
+    public ReferenceTagger(String filename) {
+        configFile = filename;
+    }
+    
+    /**
+     * Read the training file.
+     * @param filename Name of the training file
+     * @return The training data
+     */
     public DataSet readTagged(String filename) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
@@ -77,14 +77,14 @@ public class ReferenceTagger {
         return new DataSet(td);
     }
 
-	/**
-	 * Add the feature types, process the parameters, and initialize the feature generator.
-	 */
+    /**
+     * Add the feature types, process the parameters, and initialize the feature generator.
+     */
     public void createFeatureGenerator() throws Exception {
-		// Add feature types
+    	// Add feature types
         ArrayList<FeatureType> fts = new ArrayList<FeatureType>();
-		
-		// 1st-order CRF features
+        
+        // 1st-order CRF features
         fts.add(new WordBag());
         fts.add(new PreviousWordBag());
         fts.add(new NextWordBag());
@@ -93,88 +93,88 @@ public class ReferenceTagger {
         fts.add(new LetterNGramsBag());
 
         fts.add(new EdgeBag());
-		fts.add(new Edge());
+        fts.add(new Edge());
         fts.add(new EdgeWordBag());
-		fts.add(new EdgeWord());
+        fts.add(new EdgeWord());
         fts.add(new EdgePreviousWordBag());
-		fts.add(new EdgePreviousWord());
-		
-		// Add this for 1st-order Semi-CRF
-		// fts.add(new FirstOrderTransition());
-		
-		// Add this for 2nd-order CRF and Semi-CRF
+        fts.add(new EdgePreviousWord());
+        
+        // Add this for 1st-order Semi-CRF
+        // fts.add(new FirstOrderTransition());
+        
+        // Add this for 2nd-order CRF and Semi-CRF
         // fts.add(new SecondOrderTransition());
-		
-		// Add this for 3rd-order CRF and Semi-CRF
+        
+        // Add this for 3rd-order CRF and Semi-CRF
         // fts.add(new ThirdOrderTransition());
-		
-		// Process parameters
+        
+        // Process parameters
         Params params = new Params(configFile, labelmap.size());
-		
-		// Initialize feature generator
+        
+        // Initialize feature generator
         featureGen = new FeatureGenerator(fts, params);
     }
 
-	/**
-	 * Train the high-order semi-CRF.
-	 */
+    /**
+     * Train the high-order semi-CRF.
+     */
     public void train() throws Exception {
-		// Set training file name and create output directory
+        // Set training file name and create output directory
         String trainFilename = "ref.train";
-		File dir = new File("learntModels/");
+        File dir = new File("learntModels/");
         dir.mkdirs();
-		
-		// Read training data and save the label map
+        
+        // Read training data and save the label map
         DataSet trainData = readTagged(trainFilename);
-		labelmap.write("learntModels/labelmap");
-		
-		// Create and save feature generator
+        labelmap.write("learntModels/labelmap");
+        
+        // Create and save feature generator
         createFeatureGenerator();
         featureGen.initialize(trainData.getSeqList());
-		featureGen.write("learntModels/features");
+        featureGen.write("learntModels/features");
 		
         // Train and save model
         highOrderSemiCrfModel = new HighOrderSemiCRF(featureGen);
         highOrderSemiCrfModel.train(trainData.getSeqList());
-		highOrderSemiCrfModel.write("learntModels/crf");
+        highOrderSemiCrfModel.write("learntModels/crf");
     }
 
-	/**
-	 * Test the high-order semi-CRF.
-	 */
+    /**
+     * Test the high-order semi-CRF.
+     */
     public void test() throws Exception {
-		// Read label map, features, and CRF model
+    	// Read label map, features, and CRF model
         labelmap.read("learntModels/labelmap");
         createFeatureGenerator();
         featureGen.read("learntModels/features");
         highOrderSemiCrfModel = new HighOrderSemiCRF(featureGen);
         highOrderSemiCrfModel.read("learntModels/crf");
-
-		// Run Viterbi algorithm
+        
+        // Run Viterbi algorithm
         System.out.print("Running Viterbi...");
         String testFilename = "ref.test";
         DataSet testData = readTagged(testFilename);
         long startTime = System.currentTimeMillis();
         highOrderSemiCrfModel.runViterbi(testData.getSeqList());
         System.out.println("done in " + (System.currentTimeMillis() - startTime) + " ms");
-
-		// Print out the predicted data
+        
+        // Print out the predicted data
         File dir = new File("out/");
         dir.mkdirs();
         testData.writeToFile("out/ref.test");
-
-		// Score the results
+        
+        // Score the results
         System.out.println("Scoring results...");
         startTime = System.currentTimeMillis();
-		DataSet trueTestData = readTagged(testFilename);
-		Scorer scr = new Scorer(trueTestData.getSeqList(), testData.getSeqList(), labelmap, false);
+        DataSet trueTestData = readTagged(testFilename);
+        Scorer scr = new Scorer(trueTestData.getSeqList(), testData.getSeqList(), labelmap, false);
         scr.phraseScore();
         System.out.println("done in " + (System.currentTimeMillis() - startTime) + " ms");
     }
 
-	/**
-	 * Main class
-	 */
+    /**
+     * Main class
+     */
     public static void main(String argv[]) throws Exception {
         ReferenceTagger refTagger = new ReferenceTagger(argv[1]);
         if (argv[0].toLowerCase().equals("all")) {
