@@ -636,32 +636,32 @@ public class FeatureGenerator {
             }
         }
     }
-	
-	/**
-	 * Get the IDs of the features activated at a segment for a given pattern.
-	 * @param seq Data sequence
-	 * @param segStart Start position of the segment
-	 * @param segEnd End position of the segment
-	 * @param patID Pattern ID
-	 * @return List of feature IDs
-	 */
-	public ArrayList<Integer> getFeatures(DataSequence seq, int segStart, int segEnd, int patID) {
-		ArrayList<Integer> feats = new ArrayList<Integer>();
-		int[] obsList = seq.getObservation(segStart, segEnd);
-		for (int obsID : obsList) {
-			Integer feat = (Integer) featureMap.get(new FeatureIndex(obsID, patID));
-			if (feat != null) {
-				feats.add(feat);
-			}
-		}
-		return feats;
+    
+    /**
+     * Get the IDs of the features activated at a segment for a given pattern.
+     * @param seq Data sequence
+     * @param segStart Start position of the segment
+     * @param segEnd End position of the segment
+     * @param patID Pattern ID
+     * @return List of feature IDs
+     */
+    public ArrayList<Integer> getFeatures(DataSequence seq, int segStart, int segEnd, int patID) {
+        ArrayList<Integer> feats = new ArrayList<Integer>();
+        int[] obsList = seq.getObservation(segStart, segEnd);
+        for (int obsID : obsList) {
+            Integer feat = (Integer) featureMap.get(new FeatureIndex(obsID, patID));
+            if (feat != null) {
+                feats.add(feat);
+            }
+        }
+        return feats;
     }
-	
-	/**
-	 * Get the IDs of a list of features.
-	 * @param fs List of features
-	 * @return List of feature IDs
-	 */
+    
+    /**
+     * Get the IDs of a list of features.
+     * @param fs List of features
+     * @return List of feature IDs
+     */
     public ArrayList<Integer> getFeatureID(ArrayList<Feature> fs) {
         ArrayList<Integer> feats = new ArrayList<Integer>();
         for (Feature f : fs) {
@@ -672,13 +672,13 @@ public class FeatureGenerator {
         }
         return feats;
     }
-
-	/**
-	 * Compute the feature scores of a list of features and a weight vector.
-	 * @param feats List of feature IDs
-	 * @param lambda Weights of all the features
-	 * @return The total feature score
-	 */
+    
+    /**
+     * Compute the feature scores of a list of features and a weight vector.
+     * @param feats List of feature IDs
+     * @param lambda Weights of all the features
+     * @return The total feature score
+     */
     public double computeFeatureScores(ArrayList<Integer> feats, double[] lambda) {
         double featuresScore = 0.0;
         for (int index : feats) {
@@ -687,27 +687,27 @@ public class FeatureGenerator {
         }
         return featuresScore;
     }
-
-	/**
-	 * Print all statistics for testing.
-	 */
-	public void printStatesStatistics() {
+    
+    /**
+     * Print all statistics for testing.
+     */
+    public void printStatesStatistics() {
         System.out.println("Forward Transition:");
         for (int piID = 0; piID < forwardStateMap.size(); piID++) {
             System.out.println(piID + " --> " + lastForwardStateLabel[piID]);
-			if (forwardTransition1[piID] != null) {
-				for (int i = 0; i < forwardTransition1[piID].size(); i++) {
-					System.out.println(forwardTransition1[piID].get(i) + " " + forwardTransition2[piID].get(i));
-				}
-			}
+            if (forwardTransition1[piID] != null) {
+                for (int i = 0; i < forwardTransition1[piID].size(); i++) {
+                    System.out.println(forwardTransition1[piID].get(i) + " " + forwardTransition2[piID].get(i));
+                }
+            }
         }
-		
-		System.out.println("Backward Transition:");
-		for (int sID = 0; sID < backwardStateMap.size(); sID++) {
-			for (int y = 0; y < params.numLabels; y++) {
-				System.out.println(sID + " " + y + " --> " + backwardTransition[sID][y]);
-			}
-		}
+        
+        System.out.println("Backward Transition:");
+        for (int sID = 0; sID < backwardStateMap.size(); sID++) {
+            for (int y = 0; y < params.numLabels; y++) {
+                System.out.println(sID + " " + y + " --> " + backwardTransition[sID][y]);
+            }
+        }
 
         System.out.println("Pattern Transition:");
         for (int pID = 0; pID < patternMap.size(); pID++) {
@@ -720,4 +720,3 @@ public class FeatureGenerator {
         }
     }
 }
-
