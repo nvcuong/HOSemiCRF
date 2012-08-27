@@ -33,21 +33,21 @@ public class PunctuationPredictor {
     HighOrderSemiCRF highOrderSemiCrfModel; // High-order semi-CRF model
     FeatureGenerator featureGen; // Feature generator
     LabelMap labelmap = new LabelMap(); // Label map
-	String configFile; // Configuration filename
+    String configFile; // Configuration filename
 
-	/**
-	 * Construct a punctuation tagger from a configuration file.
-	 * @param filename Name of configuration file
-	 */
-	public PunctuationPredictor(String filename) {
-		configFile = filename;
-	}
-
-	/**
-	 * Read the training file.
-	 * @param filename Name of the training file
-	 * @return The training data
-	 */
+    /**
+     * Construct a punctuation tagger from a configuration file.
+     * @param filename Name of configuration file
+     */
+    public PunctuationPredictor(String filename) {
+        configFile = filename;
+    }
+    
+    /**
+     * Read the training file.
+     * @param filename Name of the training file
+     * @return The training data
+     */
     public DataSet readTagged(String filename) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
@@ -77,63 +77,63 @@ public class PunctuationPredictor {
         return new DataSet(td);
     }
 
-	/**
-	 * Add the feature types, process the parameters, and initialize the feature generator.
-	 */
+    /**
+     * Add the feature types, process the parameters, and initialize the feature generator.
+     */
     public void createFeatureGenerator() throws Exception {
-		// Add feature types
+    	// Add feature types
         ArrayList<FeatureType> fts = new ArrayList<FeatureType>();
-		
-		// 1st-order CRF featutres
-		fts.add(new WordPositionBag());
+        
+        // 1st-order CRF featutres
+        fts.add(new WordPositionBag());
         fts.add(new TwoWordPositionBag());
 		
         fts.add(new EdgeBag());
-		fts.add(new Edge());
+        fts.add(new Edge());
         fts.add(new EdgeWordBag());
         fts.add(new EdgeWord());
         fts.add(new EdgePreviousWordBag());
-		fts.add(new EdgePreviousWord());
+        fts.add(new EdgePreviousWord());
         fts.add(new EdgeTwoWordBag());
-		fts.add(new EdgeTwoWord());
+        fts.add(new EdgeTwoWord());
         
-		// Add these for 1st-order Semi-CRF
-		// fts.add(new FirstOrderTransition());
-		// fts.add(new FirstOrderTransitionWord());
-		
-		// Add these for 2nd-order CRF and Semi-CRF
+        // Add these for 1st-order Semi-CRF
+        // fts.add(new FirstOrderTransition());
+        // fts.add(new FirstOrderTransitionWord());
+        
+        // Add these for 2nd-order CRF and Semi-CRF
         // fts.add(new SecondOrderTransition());
         // fts.add(new SecondOrderTransitionWord());
-		
-		// Add these for 3rd-order CRF and Semi-CRF
+        
+        // Add these for 3rd-order CRF and Semi-CRF
         // fts.add(new ThirdOrderTransition());
         // fts.add(new ThirdOrderTransitionWord());
-		
-		// Process parameters
+        
+        // Process parameters
         Params params = new Params(configFile, labelmap.size());
-		
-		// Initialize feature generator
+        
+        // Initialize feature generator
         featureGen = new FeatureGenerator(fts, params);
     }
 
-	/**
-	 * Train the high-order semi-CRF.
-	 */
+    /**
+     * Train the high-order semi-CRF.
+     */
     public void train() throws Exception {
-		// Set training file name and create output directory
+    	// Set training file name and create output directory
         String trainFilename = "punc.train";
-		File dir = new File("learntModels/");
+        File dir = new File("learntModels/");
         dir.mkdirs();
-		
-		// Read training data and save the label map
+        
+        // Read training data and save the label map
         PuncConverter.convert("punc.tr", trainFilename);
         DataSet trainData = readTagged(trainFilename);
-		labelmap.write("learntModels/labelmap");
-		
-		// Create and save feature generator
-		createFeatureGenerator();
+        labelmap.write("learntModels/labelmap");
+        
+        // Create and save feature generator
+        createFeatureGenerator();
         featureGen.initialize(trainData.getSeqList());
-		featureGen.write("learntModels/features");
+        featureGen.write("learntModels/features");
 
         // Train and save model
         highOrderSemiCrfModel = new HighOrderSemiCRF(featureGen);
@@ -141,18 +141,18 @@ public class PunctuationPredictor {
         highOrderSemiCrfModel.write("learntModels/crf");
     }
 
-	/**
-	 * Test the high-order semi-CRF.
-	 */
+    /**
+     * Test the high-order semi-CRF.
+     */
     public void test() throws Exception {
-		// Read label map, features, and CRF model
+    	// Read label map, features, and CRF model
         labelmap.read("learntModels/labelmap");
         createFeatureGenerator();
         featureGen.read("learntModels/features");
         highOrderSemiCrfModel = new HighOrderSemiCRF(featureGen);
         highOrderSemiCrfModel.read("learntModels/crf");
-
-		// Run Viterbi algorithm
+        
+        // Run Viterbi algorithm
         System.out.print("Running Viterbi...");
         String testFilename = "punc.test";
         PuncConverter.convert("punc.ts", testFilename);
@@ -160,24 +160,24 @@ public class PunctuationPredictor {
         long startTime = System.currentTimeMillis();
         highOrderSemiCrfModel.runViterbi(testData.getSeqList());
         System.out.println("done in " + (System.currentTimeMillis() - startTime) + " ms");
-
-		// Print out the predicted data
+        
+        // Print out the predicted data
         File dir = new File("out/");
         dir.mkdirs();
         testData.writeToFile("out/punc.test");
-
-		// Score the results
+        
+        // Score the results
         System.out.println("Scoring results...");
         startTime = System.currentTimeMillis();
         DataSet trueTestData = readTagged(testFilename);
-		Scorer scr = new Scorer(trueTestData.getSeqList(), testData.getSeqList(), labelmap, true);
+        Scorer scr = new Scorer(trueTestData.getSeqList(), testData.getSeqList(), labelmap, true);
         scr.tokenScore();
         System.out.println("done in " + (System.currentTimeMillis() - startTime) + " ms");
     }
 
-	/**
-	 * Main class
-	 */
+    /**
+     * Main class
+     */
     public static void main(String argv[]) throws Exception {
         PunctuationPredictor puncPredictor = new PunctuationPredictor(argv[1]);
         if (argv[0].toLowerCase().equals("all")) {
@@ -188,5 +188,5 @@ public class PunctuationPredictor {
         } else if (argv[0].toLowerCase().equals("test")) {
             puncPredictor.test();
         }
-	}
+    }
 }
