@@ -138,12 +138,12 @@ public class DataSequence {
         }
     }
 
-	/**
-	 * Check if a subsequence is a segment.
-	 * @param startPos Start position of the subsequence
-	 * @param endPos End position of the subsequence
-	 * @return true if the subsequence is a segment, false otherwise
-	 */
+    /**
+     * Check if a subsequence is a segment.
+     * @param startPos Start position of the subsequence
+     * @param endPos End position of the subsequence
+     * @return true if the subsequence is a segment, false otherwise
+     */
     public boolean isSegment(int startPos, int endPos) {
         int y = y(startPos);
         for (int i = startPos + 1; i <= endPos; i++) {
@@ -154,10 +154,10 @@ public class DataSequence {
         return true;
     }
 	
-	/**
-	 * Return the maximum length of any segment in the sequence.
-	 * @return Maximum segment length
-	 */
+    /**
+     * Return the maximum length of any segment in the sequence.
+     * @return Maximum segment length
+     */
     public int getMaxSegLength() {
         int maxSeg = 0, segStart, segEnd;
         for (segStart = 0; segStart < length(); segStart = segEnd + 1) {
@@ -169,20 +169,20 @@ public class DataSequence {
         return maxSeg;
     }
 	
-	/**
-	 * Return the observations for a subsequence.
-	 * @param segStart Start position of the subsequence
-	 * @param segEnd End position of the subsequence
-	 * @return Array of observation IDs
-	 */
-	public int[] getObservation(int segStart, int segEnd) {
-		return observationMap[segStart][segEnd-segStart];
-	}
+    /**
+     * Return the observations for a subsequence.
+     * @param segStart Start position of the subsequence
+     * @param segEnd End position of the subsequence
+     * @return Array of observation IDs
+     */
+    public int[] getObservation(int segStart, int segEnd) {
+        return observationMap[segStart][segEnd-segStart];
+    }
 	
-	/**
-	 * Write a data sequence to a buffered writer.
-	 * @param bw Buffered writer
-	 */
+    /**
+     * Write a data sequence to a buffered writer.
+     * @param bw Buffered writer
+     */
     public void writeToBuffer(BufferedWriter bw) throws Exception {
         for (int i = 0; i < labels.length; i++) {                
             bw.write(x(i) + " " + labelmap.revMap(labels[i]) + "\n");
