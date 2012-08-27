@@ -35,24 +35,24 @@ public class Viterbi implements Schedulable {
     ArrayList data; // List of training sequences
     final int BASE = 1; // Base of the logAlpha array
 
-	/**
-	 * Construct a Viterbi class.
-	 * @param featureGen Feature generator
-	 * @param lambda Lambda vector
-	 * @param data Training data
-	 */
+    /**
+     * Construct a Viterbi class.
+     * @param featureGen Feature generator
+     * @param lambda Lambda vector
+     * @param data Training data
+     */
     public Viterbi(FeatureGenerator featureGen, double[] lambda, ArrayList data) {
         curID = -1;
         this.featureGen = featureGen;
         this.lambda = lambda;
         this.data = data;
     }
-
-	/**
-	 * Run the Viterbi algorithm for a given sequence.
-	 * @param taskID Index of the sequence
-	 * @return The updated sequence
-	 */
+    
+    /**
+     * Run the Viterbi algorithm for a given sequence.
+     * @param taskID Index of the sequence
+     * @return The updated sequence
+     */
     public Object compute(int taskID) {
         DataSequence seq = (DataSequence) data.get(taskID);
         double maxScore[][] = new double[seq.length() + 1][featureGen.forwardStateMap.size()];
@@ -64,7 +64,7 @@ public class Viterbi implements Schedulable {
             Arrays.fill(maxScore[j + BASE], Double.NEGATIVE_INFINITY);
             for (int i = 0; i < featureGen.forwardStateMap.size(); i++) {
                 int y = featureGen.lastForwardStateLabel[i];
-				int maxmem = (y == -1) ? 0 : featureGen.maxMemory[y];
+                int maxmem = (y == -1) ? 0 : featureGen.maxMemory[y];
 	               
                 ArrayList<Integer> prevState1 = featureGen.forwardTransition1[i];
                 ArrayList<Integer> prevState2 = featureGen.forwardTransition2[i];
@@ -84,8 +84,8 @@ public class Viterbi implements Schedulable {
                 }
             }
         }
-		
-		// Compute max score for last element
+        
+        // Compute max score for last element
         double max = Double.NEGATIVE_INFINITY;
         String tracemax = "";
         for (int i = 0; i < featureGen.forwardStateMap.size(); i++) {
@@ -110,20 +110,20 @@ public class Viterbi implements Schedulable {
         }
 
         return seq;
-	}
-
-	/**
-	 * Return total number of tasks (for parallelization).
-	 * @return Training dataset size
-	 */
+    }
+    
+    /**
+     * Return total number of tasks (for parallelization).
+     * @return Training dataset size
+     */
     public int getNumTasks() {
         return data.size();
     }
 
-	/**
-	 * Return the next task ID (for parallelization).
-	 * @return The next sequence ID
-	 */
+    /**
+     * Return the next task ID (for parallelization).
+     * @return The next sequence ID
+     */
     public synchronized int fetchCurrTaskID() {
         if (curID < getNumTasks()) {
             curID++;
@@ -131,11 +131,11 @@ public class Viterbi implements Schedulable {
         return curID;
     }
 
-	/**
-	 * Update partial result (for parallelization).
-	 * Note that this method does nothing in this case.
-	 * @param partialResult Partial result
-	 */
+    /**
+     * Update partial result (for parallelization).
+     * Note that this method does nothing in this case.
+     * @param partialResult Partial result
+     */
     public void update(Object partialResult) {
         // Do nothing
     }
