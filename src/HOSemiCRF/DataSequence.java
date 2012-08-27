@@ -28,24 +28,24 @@ import java.util.*;
  * @author Sumit Bhagwani
  */
 public class DataSequence {
-
-	Object[] inputs; // Observation array
+	
+    Object[] inputs; // Observation array
     int[] labels; // Label array
     int[] startPos; // Start of a segment
-	int[] endPos; // End of a segment
+    int[] endPos; // End of a segment
     int[][][] observationMap; // [startPos, segLength] -> List of observation ID using obsMap
-	LabelMap labelmap; // Map from label strings to their IDs
+    LabelMap labelmap; // Map from label strings to their IDs
     
-	/**
-	 * Construct a data sequence from a label map, labels and observations with default segmentation.
-	 * @param ls Label array
-	 * @param inps Observation array
-	 * @param labelm Label map
-	 */
-	public DataSequence(int[] ls, Object[] inps, LabelMap labelm) {
+    /**
+     * Construct a data sequence from a label map, labels and observations with default segmentation.
+     * @param ls Label array
+     * @param inps Observation array
+     * @param labelm Label map
+     */
+    public DataSequence(int[] ls, Object[] inps, LabelMap labelm) {
         labels = ls;
         inputs = inps;
-		labelmap = labelm;
+        labelmap = labelm;
 
         // Compute start positions
         startPos = new int[labels.length];
@@ -70,28 +70,28 @@ public class DataSequence {
         }
     }
 
-	/**
-	 * Return length of the current data sequence.
-	 * @return Length of the current sequence
-	 */
+    /**
+     * Return length of the current data sequence.
+     * @return Length of the current sequence
+     */
     public int length() {
         return labels.length;
     }
 
-	/**
-	 * Return label at a position.
-	 * @param pos Input position
-	 * @return Label at the input position
-	 */
+    /**
+     * Return label at a position.
+     * @param pos Input position
+     * @return Label at the input position
+     */
     public int y(int pos) {
         return labels[pos];
     }
 
-	/**
-	 * Return observation at a position.
-	 * @param pos Input position
-	 * @return Observation at the input position
-	 */
+    /**
+     * Return observation at a position.
+     * @param pos Input position
+     * @return Observation at the input position
+     */
     public Object x(int pos) {
         if (pos < 0 || pos >= inputs.length) {
             return "";
@@ -99,39 +99,39 @@ public class DataSequence {
         return inputs[pos];
     }
 
-	/**
-	 * Set the label at an input position.
-	 * @param pos Input position
-	 * @param newY New label to be set at the input position
-	 */
+    /**
+     * Set the label at an input position.
+     * @param pos Input position
+     * @param newY New label to be set at the input position
+     */
     public void set_y(int pos, int newY) {
         labels[pos] = newY;
     }
 
-	/**
-	 * Return the start position of the segment that includes a given position.
-	 * @param pos Input position
-	 * @return Start position of the segment that includes the input position
-	 */
+    /**
+     * Return the start position of the segment that includes a given position.
+     * @param pos Input position
+     * @return Start position of the segment that includes the input position
+     */
     public int getSegmentStart(int pos) {
         return startPos[pos];
     }
 
-	/**
-	 * Return the end position of the segment that includes a given position.
-	 * @param pos Input position
-	 * @return End position of the segment that includes the input position
-	 */
+    /**
+     * Return the end position of the segment that includes a given position.
+     * @param pos Input position
+     * @return End position of the segment that includes the input position
+     */
     public int getSegmentEnd(int pos) {
         return endPos[pos];
     }
 
-	/**
-	 * Set the label of a segment.
-	 * @param startPos Start position of the segment
-	 * @param endPos End position of the segment
-	 * @param newY New label to be set for the segment
-	 */
+    /**
+     * Set the label of a segment.
+     * @param startPos Start position of the segment
+     * @param endPos End position of the segment
+     * @param newY New label to be set for the segment
+     */
     public void setSegment(int startPos, int endPos, int newY) {
         for (int i = startPos; i <= endPos; i++) {
             set_y(i, newY);
