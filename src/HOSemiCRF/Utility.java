@@ -29,9 +29,9 @@ public class Utility {
 
     /**
      * Return ln(exp(a) + exp(b)) for two real numbers a and b.
-	 * @param a First real number
-	 * @param b Second real number
-	 * @return ln(exp(a) + exp(b))
+     * @param a First real number
+     * @param b Second real number
+     * @return ln(exp(a) + exp(b))
      */
     public static double logSumExp(double a, double b) {
         if (a == Double.NEGATIVE_INFINITY) {
@@ -45,11 +45,11 @@ public class Utility {
         }
     }
     
-	/**
-	 * Generate all proper prefixes of a label pattern.
-	 * @param labelPat Label pattern
-	 * @return List of proper prefixes
-	 */
+    /**
+     * Generate all proper prefixes of a label pattern.
+     * @param labelPat Label pattern
+     * @return List of proper prefixes
+     */
     public static ArrayList<String> generateProperPrefixes(String labelPat) {
         String pats = new String(labelPat);
         ArrayList<String> res = new ArrayList<String>();
@@ -62,11 +62,11 @@ public class Utility {
         return res;
     }
 
-	/**
-	 * Generate all suffixes of a label pattern.
-	 * @param labelPat Label pattern
-	 * @return List of suffixes
-	 */
+    /**
+     * Generate all suffixes of a label pattern.
+     * @param labelPat Label pattern
+     * @return List of suffixes
+     */
     public static ArrayList<String> generateSuffixes(String labelPat) {
         String pats = new String(labelPat);
         ArrayList<String> res = new ArrayList<String>();
@@ -78,11 +78,11 @@ public class Utility {
         return res;
     }
 
-	/**
-	 * Return the last label in a label pattern.
-	 * @param labelPat Label pattern
-	 * @return The last label in the pattern
-	 */
+    /**
+     * Return the last label in a label pattern.
+     * @param labelPat Label pattern
+     * @return The last label in the pattern
+     */
     public static String getLastLabel(String labelPat) {
         String pats = new String(labelPat);
         if (pats.contains("|")) {
@@ -92,11 +92,11 @@ public class Utility {
         }
     }   
 
-	/**
-	 * Return the order of a label pattern.
-	 * @param labelPat Label pattern
-	 * @return The order of the pattern
-	 */
+    /**
+     * Return the order of a label pattern.
+     * @param labelPat Label pattern
+     * @return The order of the pattern
+     */
     public static int getOrder(String labelPat) {
         int res = 0;
         String pats = new String(labelPat);
