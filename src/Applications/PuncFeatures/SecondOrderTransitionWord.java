@@ -28,17 +28,17 @@ import HOSemiCRF.*;
  */
 public class SecondOrderTransitionWord extends FeatureType {
 	
-	public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
+    public ArrayList<String> generateObsAt(DataSequence seq, int segStart, int segEnd) {
         ArrayList<String> obs = new ArrayList<String>();
         if (segStart >= 2) {
-			for (int i = segStart; i <= segEnd; i++) {
+            for (int i = segStart; i <= segEnd; i++) {
                 obs.add("E2W." + seq.x(i));
             }
         }
         return obs;
     }
 	
-	public int order() {
+    public int order() {
         return 2;
     }
 }
