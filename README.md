@@ -1,6 +1,6 @@
 Copyright (C) 2012 Nguyen Viet Cuong, Ye Nan, Sumit Bhagwani
 
-This is the README file for HOSemiCRF.
+This is the README file for HOSemiCRF version 1.0
 
 HOSemiCRF is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
