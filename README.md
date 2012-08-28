@@ -26,6 +26,7 @@ Requirement: Apache Ant (http://ant.apache.org/)
 
 1. Download the HOSemiCRF repository as a zip file: nvcuong-HOSemiCRF-xxxxxxx.zip
 2. Unzip the file:
+    
     unzip nvcuong-HOSemiCRF-xxxxxxx.zip
 3. Compile the program:
     cd nvcuong-HOSemiCRF-xxxxxxx
