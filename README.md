@@ -28,21 +28,29 @@ Requirement: Apache Ant (http://ant.apache.org/)
 2. Unzip the file:
     
     unzip nvcuong-HOSemiCRF-xxxxxxx.zip
+
 3. Compile the program:
+    
     cd nvcuong-HOSemiCRF-xxxxxxx
+
     ant
 
 === RUN THE PROGRAM ===
 
 1. Copy the jar file to "run"
+
     cp dist/lib/HOSemiCRF.jar run/
+    
 2. Run the program
+
     cd run
+    
     java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
+    
     or
+    
     java -cp "HOSemiCRF.jar" Applications.PunctuationPredictor all punc.conf
 
 === MORE INFO ===
 
-Please visit: 
-    https://github.com/nvcuong/HOSemiCRF/wiki
+Please visit: https://github.com/nvcuong/HOSemiCRF/wiki
