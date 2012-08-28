@@ -98,8 +98,8 @@ public class PunctuationPredictor {
         fts.add(new EdgeTwoWord());
         
         // Add these for 1st-order Semi-CRF
-        // fts.add(new FirstOrderTransition());
-        // fts.add(new FirstOrderTransitionWord());
+        fts.add(new FirstOrderTransition());
+        fts.add(new FirstOrderTransitionWord());
         
         // Add these for 2nd-order CRF and Semi-CRF
         // fts.add(new SecondOrderTransition());
