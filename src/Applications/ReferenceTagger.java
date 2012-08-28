@@ -100,7 +100,7 @@ public class ReferenceTagger {
         fts.add(new EdgePreviousWord());
         
         // Add this for 1st-order Semi-CRF
-        // fts.add(new FirstOrderTransition());
+        fts.add(new FirstOrderTransition());
         
         // Add this for 2nd-order CRF and Semi-CRF
         // fts.add(new SecondOrderTransition());
