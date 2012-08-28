@@ -32,24 +32,19 @@ Requirement: Apache Ant (http://ant.apache.org/)
 3. Compile the program:
 
     cd nvcuong-HOSemiCRF-xxxxxxx
-    
     ant
 
 === RUN THE PUNCTUATION PREDICTION PROGRAM ===
 
     cp dist/lib/HOSemiCRF.jar run/punc/
-    
     cd run/punc
-    
     java -cp "HOSemiCRF.jar" Applications.PunctuationPredictor all punc.conf
-
     
 === RUN THE REFERENCE PREDICTION PROGRAM ===
     
     cp dist/lib/HOSemiCRF.jar run/ref/
     cd run/ref
     java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
-
     
 === MORE INFO ===
 
