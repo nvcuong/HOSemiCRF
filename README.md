@@ -15,10 +15,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with HOSemiCRF. If not, see <http://www.gnu.org/licenses/>.
 
+
 === WARNING ===
 
 HOSemiCRF requires a lot of memory usage. It is best to run the program 
 in parallel on a computing cluster with lots of memory.
+
 
 === COMPILATION STEPS ===
 
@@ -35,22 +37,25 @@ Requirement: Apache Ant (http://ant.apache.org/)
 
     ant
 
-=== RUN THE PROGRAM ===
-
-1. Copy the jar file to "run"
-
-    cp dist/lib/HOSemiCRF.jar run/
     
-2. Run the program
+=== RUN THE PUNCTUATION PREDICTION PROGRAM ===
 
-    cd run
+    cp dist/lib/HOSemiCRF.jar run/punc/
     
-    java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
-    
-    or
+    cd run/punc
     
     java -cp "HOSemiCRF.jar" Applications.PunctuationPredictor all punc.conf
 
+    
+=== RUN THE REFERENCE PREDICTION PROGRAM ===
+    
+    cp dist/lib/HOSemiCRF.jar run/ref/
+    
+    cd run/ref
+    
+    java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
+
+    
 === MORE INFO ===
 
 Please visit: https://github.com/nvcuong/HOSemiCRF/wiki
