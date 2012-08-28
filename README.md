@@ -32,6 +32,7 @@ Requirement: Apache Ant (http://ant.apache.org/)
 3. Compile the program:
 
     cd nvcuong-HOSemiCRF-xxxxxxx
+    
     ant
 
 === RUN THE PUNCTUATION PREDICTION PROGRAM ===
