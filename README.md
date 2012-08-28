@@ -15,12 +15,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with HOSemiCRF. If not, see <http://www.gnu.org/licenses/>.
 
-
 === WARNING ===
 
 HOSemiCRF requires a lot of memory usage. It is best to run the program 
 in parallel on a computing cluster with lots of memory.
-
 
 === COMPILATION STEPS ===
 
@@ -29,31 +27,28 @@ Requirement: Apache Ant (http://ant.apache.org/)
 1. Download the HOSemiCRF repository as a zip file: nvcuong-HOSemiCRF-xxxxxxx.zip
 2. Unzip the file:
 
-   unzip nvcuong-HOSemiCRF-xxxxxxx.zip
+    unzip nvcuong-HOSemiCRF-xxxxxxx.zip
 
 3. Compile the program:
 
-   cd nvcuong-HOSemiCRF-xxxxxxx
-
-   ant
-
+    cd nvcuong-HOSemiCRF-xxxxxxx
     
+    ant
+
 === RUN THE PUNCTUATION PREDICTION PROGRAM ===
 
-   cp dist/lib/HOSemiCRF.jar run/punc/
+    cp dist/lib/HOSemiCRF.jar run/punc/
     
-   cd run/punc
+    cd run/punc
     
-   java -cp "HOSemiCRF.jar" Applications.PunctuationPredictor all punc.conf
+    java -cp "HOSemiCRF.jar" Applications.PunctuationPredictor all punc.conf
 
     
 === RUN THE REFERENCE PREDICTION PROGRAM ===
     
-   cp dist/lib/HOSemiCRF.jar run/ref/
-    
-   cd run/ref
-    
-   java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
+    cp dist/lib/HOSemiCRF.jar run/ref/
+    cd run/ref
+    java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
 
     
 === MORE INFO ===
