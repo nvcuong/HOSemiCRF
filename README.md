@@ -49,7 +49,7 @@ Requirement: Apache Ant (http://ant.apache.org/)
     
 === RUN THE OCR PROGRAM ===
 
-Data for this program can be downloaded from: http://www.seas.upenn.edu/~taskar/ocr/
+Download data from http://www.seas.upenn.edu/~taskar/ocr/ to the folder run/ocr/
     
     cp dist/lib/HOSemiCRF.jar run/ocr/
     cd run/ocr
