@@ -47,6 +47,12 @@ Requirement: Apache Ant (http://ant.apache.org/)
     cd run/ref
     java -cp "HOSemiCRF.jar" Applications.ReferenceTagger all ref.conf
     
+=== RUN THE OCR PROGRAM ===
+
+    cp dist/lib/HOSemiCRF.jar run/ocr/
+    cd run/ocr
+    java -cp "HOSemiCRF.jar" OCR.OCR all ocr.conf 0
+    
 === MORE INFO ===
 
 Please visit: https://github.com/nvcuong/HOSemiCRF/wiki
