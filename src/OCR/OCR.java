@@ -114,7 +114,6 @@ public class OCR {
         
         // Read training data and save the label map
         DataSet trainData = readTagged(trainFilename, trainFold, true);
-        System.out.println("Train size = " + trainData.getSeqList().size());
         labelmap.write("learntModels/fold" + trainFold + "/labelmap");
         
         // Create and save feature generator
