@@ -139,7 +139,6 @@ public class OCR {
         System.out.print("Running Viterbi...");
         String testFilename = "letter.data";
         DataSet testData = readTagged(testFilename, trainFold, false);
-        System.out.println("Test size = " + testData.getSeqList().size());
         long startTime = System.currentTimeMillis();
         highOrderCrfModel.runViterbi(testData.getSeqList());
         System.out.println("done in " + (System.currentTimeMillis() - startTime) + " ms");
