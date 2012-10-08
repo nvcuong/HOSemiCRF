@@ -49,6 +49,9 @@ Requirement: Apache Ant (http://ant.apache.org/)
     
 === RUN THE OCR PROGRAM ===
 
+    Data for this program can be downloaded from:
+    http://www.seas.upenn.edu/~taskar/ocr/
+    
     cp dist/lib/HOSemiCRF.jar run/ocr/
     cd run/ocr
     java -cp "HOSemiCRF.jar" OCR.OCR all ocr.conf 0
