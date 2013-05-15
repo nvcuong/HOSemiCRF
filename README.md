@@ -24,14 +24,14 @@ in parallel on a computing cluster with lots of memory.
 
 Requirement: Apache Ant (http://ant.apache.org/)
 
-1. Download the HOSemiCRF repository as a zip file: nvcuong-HOSemiCRF-xxxxxxx.zip
+1. Download the HOSemiCRF repository as a zip file: HOSemiCRF-master.zip
 2. Unzip the file:
 
-    unzip nvcuong-HOSemiCRF-xxxxxxx.zip
+    unzip HOSemiCRF-master.zip
 
 3. Compile the program:
 
-    cd nvcuong-HOSemiCRF-xxxxxxx
+    cd HOSemiCRF-master
     
     ant
 
