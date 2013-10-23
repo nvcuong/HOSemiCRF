@@ -51,7 +51,7 @@ public class PunctuationPredictor {
     public DataSet readTagged(String filename) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
-        ArrayList td = new ArrayList();
+        ArrayList<DataSequence> td = new ArrayList<DataSequence>();
         ArrayList<String> inps = new ArrayList<String>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;
