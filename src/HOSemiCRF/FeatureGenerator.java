@@ -35,17 +35,17 @@ public class FeatureGenerator {
     Params params; // Parameters
     int[] maxMemory; // Maximum segment length for each label
     
-    HashMap obsMap; // Map from feature observation to its ID
-    HashMap patternMap; // Map from feature pattern to index
-    HashMap featureMap; // Map from FeatureIndex to its ID in lambda vector
+    HashMap<Object, Integer> obsMap; // Map from feature observation to its ID
+    HashMap<Object, Integer> patternMap; // Map from feature pattern to index
+    HashMap<Object, Integer> featureMap; // Map from FeatureIndex to its ID in lambda vector
     ArrayList<Feature> featureList; // Map from feature ID to features
     
-    HashMap forwardStateMap; // Map from forward state to index
+    HashMap<Object, Integer> forwardStateMap; // Map from forward state to index
     ArrayList<Integer>[] forwardTransition1; // Map from piID to list of pkID (see paper)
     ArrayList<Integer>[] forwardTransition2; // Map from piID to list of pkyID (see paper)
     int[] lastForwardStateLabel; // Map from piID to its last label
     
-    HashMap backwardStateMap; // Map from backward state to index
+    HashMap<Object, Integer> backwardStateMap; // Map from backward state to index
     int[][] backwardTransition; // Map from [siID,y] to skID (see paper)
     ArrayList<Integer>[] allSuffixes; // Map from sID to its suffixes patID
     ArrayList<String> backwardStateList;
@@ -71,7 +71,7 @@ public class FeatureGenerator {
      * This method needs to be called before the training process.
      * @param trainData List of training sequences
      */
-    public void initialize(ArrayList trainData) throws Exception {
+    public void initialize(ArrayList<DataSequence> trainData) throws Exception {
         createMaxMemory(trainData);
         generateFeatureMap(trainData);
         generateForwardStatesMap();
@@ -91,7 +91,7 @@ public class FeatureGenerator {
         
         // Write observation map
         out.println(obsMap.size());
-        Iterator iter = obsMap.keySet().iterator();
+        Iterator<Object> iter = obsMap.keySet().iterator();
         while (iter.hasNext()) {
             String key = (String) iter.next();
             out.println(key + " " + obsMap.get(key));
@@ -150,7 +150,7 @@ public class FeatureGenerator {
         
         // Read observation map
         int mapSize = Integer.parseInt(in.readLine());
-        obsMap = new HashMap();
+        obsMap = new HashMap<Object, Integer>();
         for (int i = 0; i < mapSize; i++) {
             String line = in.readLine();
             StringTokenizer toks = new StringTokenizer(line);
@@ -161,7 +161,7 @@ public class FeatureGenerator {
         
         // Read pattern map
         mapSize = Integer.parseInt(in.readLine());
-        patternMap = new HashMap();
+        patternMap = new HashMap<Object, Integer>();
         for (int i = 0; i < mapSize; i++) {
             String line = in.readLine();
             StringTokenizer toks = new StringTokenizer(line);
@@ -172,7 +172,7 @@ public class FeatureGenerator {
         
         // Read feature map
         mapSize = Integer.parseInt(in.readLine());
-        featureMap = new HashMap();
+        featureMap = new HashMap<Object, Integer>();
         featureList = new ArrayList<Feature>(mapSize);
         for (int i = 0; i < mapSize; i++) featureList.add(null);
         for (int i = 0; i < mapSize; i++) {
@@ -189,7 +189,7 @@ public class FeatureGenerator {
         
         // Read forward state map
         mapSize = Integer.parseInt(in.readLine());
-        forwardStateMap = new HashMap();
+        forwardStateMap = new HashMap<Object, Integer>();
         forwardStateMap.put("", new Integer(0));
         for (int i = 0; i < mapSize-1; i++) {
             String line = in.readLine();
@@ -201,7 +201,7 @@ public class FeatureGenerator {
         
         // Read backward state map
         mapSize = Integer.parseInt(in.readLine());
-        backwardStateMap = new HashMap();
+        backwardStateMap = new HashMap<Object, Integer>();
         backwardStateList = new ArrayList<String>(mapSize);
         for (int i = 0; i < mapSize; i++) backwardStateList.add(null);
         for (int i = 0; i < mapSize; i++) {
@@ -295,7 +295,7 @@ public class FeatureGenerator {
      * Generate the observations for each training sequence.
      * @param trainData List of training sequences
      */
-    public void generateSentenceObs(ArrayList trainData) throws Exception {
+    public void generateSentenceObs(ArrayList<DataSequence> trainData) throws Exception {
         SentenceObsGenerator gen = new SentenceObsGenerator(trainData, this);
         Scheduler sch = new Scheduler(gen, params.numthreads, Scheduler.DYNAMIC_NEXT_AVAILABLE);
         sch.run();
@@ -307,13 +307,13 @@ public class FeatureGenerator {
      * Reset the segment information for each training sequence.
      * @param trainData List of training sequences
      */
-    public void createMaxMemory(ArrayList trainData) throws Exception {
+    public void createMaxMemory(ArrayList<DataSequence> trainData) throws Exception {
         maxMemory = new int[params.numLabels];
         Arrays.fill(maxMemory, -1);
         
         if (params.maxSegment == -1) {
             for (int t = 0; t < trainData.size(); t++) {
-                DataSequence seq = (DataSequence) trainData.get(t);
+                DataSequence seq = trainData.get(t);
                 for (int segStart = 0; segStart < seq.length(); segStart = seq.getSegmentEnd(segStart) + 1) {
                     int segEnd = seq.getSegmentEnd(segStart);
                     int l = seq.y(segEnd);
@@ -325,7 +325,7 @@ public class FeatureGenerator {
             }
         } else if (params.maxSegment == 1) {
             for (int t = 0; t < trainData.size(); t++) {
-                DataSequence seq = (DataSequence) trainData.get(t);
+                DataSequence seq = trainData.get(t);
                 for (int i = 0; i < seq.length(); i++) {
                     seq.startPos[i] = i;
                     seq.endPos[i] = i;
@@ -342,13 +342,13 @@ public class FeatureGenerator {
      * Generate the observation map, pattern map, feature map, and feature list from training data.
      * @param trainData List of training sequences
      */
-    public void generateFeatureMap(ArrayList trainData) {
-        obsMap = new HashMap();
-        patternMap = new HashMap();
-        featureMap = new HashMap();
+    public void generateFeatureMap(ArrayList<DataSequence> trainData) {
+        obsMap = new HashMap<Object, Integer>();
+        patternMap = new HashMap<Object, Integer>();
+        featureMap = new HashMap<Object, Integer>();
         featureList = new ArrayList<Feature>();
         for (int t = 0; t < trainData.size(); t++) {
-            DataSequence seq = (DataSequence) trainData.get(t);
+            DataSequence seq = trainData.get(t);
             int segStart, segEnd;
             for (segStart = 0; segStart < seq.length(); segStart = segEnd + 1) {
                 segEnd = seq.getSegmentEnd(segStart);
@@ -381,12 +381,12 @@ public class FeatureGenerator {
      * Generate the forward state map.
      */
     public void generateForwardStatesMap() {
-        forwardStateMap = new HashMap();
+        forwardStateMap = new HashMap<Object, Integer>();
         forwardStateMap.put("", new Integer(0));
         for (int i = 0; i < params.numLabels; i++) {
             forwardStateMap.put("" + i, new Integer(forwardStateMap.size()));
         }
-        Iterator iter = patternMap.keySet().iterator();
+        Iterator<Object> iter = patternMap.keySet().iterator();
         while (iter.hasNext()) {
             String labelPat = (String) iter.next();
             ArrayList<String> pats = Utility.generateProperPrefixes(labelPat);
@@ -402,9 +402,9 @@ public class FeatureGenerator {
      * Generate the backward state map and the backward state list.
      */
     public void generateBackwardStatesMap() {
-        backwardStateMap = new HashMap();
+        backwardStateMap = new HashMap<Object, Integer>();
         backwardStateList = new ArrayList<String>();
-        Iterator iter = forwardStateMap.keySet().iterator();
+        Iterator<Object> iter = forwardStateMap.keySet().iterator();
         while (iter.hasNext()) {
             String p = (String) iter.next();
             int lastLabel = p.equals("") ? -1 : Integer.parseInt(Utility.getLastLabel(p));
@@ -499,7 +499,7 @@ public class FeatureGenerator {
      * @param map Map from strings to indices
      * @return Index of the longest suffix of the input string from the input map.
      */
-    public Integer getLongestSuffixID(String p, HashMap map) {
+    public Integer getLongestSuffixID(String p, HashMap<Object, Integer> map) {
         ArrayList<String> suffixes = Utility.generateSuffixes(p);
         for (int i = 0; i < suffixes.size(); i++) {
             Integer index = (Integer) map.get(suffixes.get(i));
@@ -516,7 +516,7 @@ public class FeatureGenerator {
      * @param map Map from strings to indices
      * @return The longest suffix of the input string from the input map.
      */
-    public String getLongestSuffix(String p, HashMap map) {
+    public String getLongestSuffix(String p, HashMap<Object, Integer> map) {
         ArrayList<String> suffixes = Utility.generateSuffixes(p);
         for (int i = 0; i < suffixes.size(); i++) {
             Integer index = (Integer) map.get(suffixes.get(i));
@@ -530,12 +530,13 @@ public class FeatureGenerator {
     /**
      * Build the information for the forward algorithm.
      */
-    public void buildForwardTransition() {
+    @SuppressWarnings("unchecked")
+	public void buildForwardTransition() {
         forwardTransition1 = new ArrayList[forwardStateMap.size()];
         forwardTransition2 = new ArrayList[forwardStateMap.size()];
         lastForwardStateLabel = new int[forwardStateMap.size()];
         
-        Iterator iter = forwardStateMap.keySet().iterator();
+        Iterator<Object> iter = forwardStateMap.keySet().iterator();
         while (iter.hasNext()) {
             String pk = (String) iter.next();
             int pkID = getForwardStateIndex(pk);
@@ -559,11 +560,12 @@ public class FeatureGenerator {
     /**
      * Build the information for the backward algorithm.
      */
-    public void buildBackwardTransition() {
+    @SuppressWarnings("unchecked")
+	public void buildBackwardTransition() {
         backwardTransition = new int[backwardStateMap.size()][params.numLabels];
         allSuffixes = new ArrayList[backwardStateMap.size()];
 		
-        Iterator iter = backwardStateMap.keySet().iterator();
+        Iterator<Object> iter = backwardStateMap.keySet().iterator();
         while (iter.hasNext()) {
             String si = (String) iter.next();
             int siID = getBackwardStateIndex(si);
@@ -592,13 +594,14 @@ public class FeatureGenerator {
     /**
      * Build the information to compute the marginals and expected feature scores.
      */
-    public void buildPatternTransition() {
+    @SuppressWarnings("unchecked")
+	public void buildPatternTransition() {
         patternTransition1 = new ArrayList[patternMap.size()];
         patternTransition2 = new ArrayList[patternMap.size()];
         lastPatternLabel = new int[patternMap.size()];
         patternBackwardID = new int[patternMap.size()];
         
-        Iterator iter = patternMap.keySet().iterator();
+        Iterator<Object> iter = patternMap.keySet().iterator();
         while (iter.hasNext()) {
             String p = (String) iter.next();
             int pID = getPatternIndex(p).intValue();
@@ -611,7 +614,7 @@ public class FeatureGenerator {
             }
         }
 		
-        Iterator forwardIter = forwardStateMap.keySet().iterator();
+        Iterator<Object> forwardIter = forwardStateMap.keySet().iterator();
         while (forwardIter.hasNext()) {
             String pi = (String) forwardIter.next();
             int lastLabel = pi.equals("") ? -1 : Integer.parseInt(Utility.getLastLabel(pi));

@@ -20,7 +20,6 @@ along with HOSemiCRF. If not, see <http://www.gnu.org/licenses/>.
 package HOSemiCRF;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * Class for a data sequence
