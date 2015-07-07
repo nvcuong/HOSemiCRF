@@ -19,9 +19,11 @@ along with HOSemiCRF. If not, see <http://www.gnu.org/licenses/>.
 
 package HOSemiCRF;
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
  * Scorer class
@@ -40,7 +42,7 @@ public class Scorer {
      * @param labelmap Label map
      * @param RM_SUFFIX If set to true, suffixes of labels after '-' will be removed
      */
-    public Scorer(ArrayList trueData, ArrayList predictedData, LabelMap labelmap, boolean RM_SUFFIX) {
+    public Scorer(ArrayList<DataSequence> trueData, ArrayList<DataSequence> predictedData, LabelMap labelmap, boolean RM_SUFFIX) {
         labels = new String[trueData.size()][];
         for (int i = 0; i < trueData.size(); i++) {
             DataSequence seq = (DataSequence) trueData.get(i);

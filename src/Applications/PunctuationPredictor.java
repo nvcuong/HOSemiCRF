@@ -51,7 +51,7 @@ public class PunctuationPredictor {
     public DataSet readTagged(String filename) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
-        ArrayList td = new ArrayList();
+        ArrayList<DataSequence> td = new ArrayList<>();
         ArrayList<String> inps = new ArrayList<String>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;
@@ -119,14 +119,14 @@ public class PunctuationPredictor {
     /**
      * Train the high-order semi-CRF.
      */
-    public void train() throws Exception {
+    public void train(String puncFilename) throws Exception {
     	// Set training file name and create output directory
         String trainFilename = "punc.train";
         File dir = new File("learntModels/");
         dir.mkdirs();
         
         // Read training data and save the label map
-        PuncConverter.convert("punc.tr", trainFilename);
+        PuncConverter.convert(puncFilename, trainFilename);
         DataSet trainData = readTagged(trainFilename);
         labelmap.write("learntModels/labelmap");
         
@@ -144,7 +144,7 @@ public class PunctuationPredictor {
     /**
      * Test the high-order semi-CRF.
      */
-    public void test() throws Exception {
+    public void test(String tsFilename) throws Exception {
     	// Read label map, features, and CRF model
         labelmap.read("learntModels/labelmap");
         createFeatureGenerator();
@@ -155,7 +155,7 @@ public class PunctuationPredictor {
         // Run Viterbi algorithm
         System.out.print("Running Viterbi...");
         String testFilename = "punc.test";
-        PuncConverter.convert("punc.ts", testFilename);
+        PuncConverter.convert(tsFilename, testFilename);
         DataSet testData = readTagged(testFilename);
         long startTime = System.currentTimeMillis();
         highOrderSemiCrfModel.runViterbi(testData.getSeqList());
@@ -181,12 +181,12 @@ public class PunctuationPredictor {
     public static void main(String argv[]) throws Exception {
         PunctuationPredictor puncPredictor = new PunctuationPredictor(argv[1]);
         if (argv[0].toLowerCase().equals("all")) {
-            puncPredictor.train();
-            puncPredictor.test();
+            puncPredictor.train(argv[2]);
+            puncPredictor.test(argv[3]);
         } else if (argv[0].toLowerCase().equals("train")) {
-            puncPredictor.train();
+            puncPredictor.train(argv[2]);
         } else if (argv[0].toLowerCase().equals("test")) {
-            puncPredictor.test();
+            puncPredictor.test(argv[3]);
         }
     }
 }
