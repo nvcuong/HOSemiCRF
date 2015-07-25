@@ -723,4 +723,12 @@ public class FeatureGenerator {
             }
         }
     }
+
+    /**
+     * 
+     * @return object which contains all value of parameters.
+     */
+	public Params getParams() {
+		return params;
+	}
 }
