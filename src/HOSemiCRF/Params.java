@@ -61,4 +61,52 @@ public class Params {
         }
         numLabels = nl;
     }
+
+    /**
+     * 
+     * @return
+     */
+	public int getNumLabels() {
+		return numLabels;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMaxIters() {
+		return maxIters;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumthreads() {
+		return numthreads;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMaxSegment() {
+		return maxSegment;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double getInvSigmaSquare() {
+		return invSigmaSquare;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double getEpsForConvergence() {
+		return epsForConvergence;
+	}
 }
