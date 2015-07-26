@@ -22,6 +22,7 @@ package HOSemiCRF;
 /**
  * Loglikelihood class
  * @author Nguyen Viet Cuong
+ * @author tndoan
  */
 public class Loglikelihood {
 
@@ -36,4 +37,31 @@ public class Loglikelihood {
         logli = 0;
         derivatives = new double[n];
     }
+    
+    /**
+     * construct loglikelihood with initial loglikelihood and derivative
+     * @param logli	initial loglikelihood
+     * @param dev	initial derivative
+     */
+    public Loglikelihood(double logli, double[] dev) {
+    	this.logli = logli;
+    	derivatives = new double[dev.length];
+    	System.arraycopy(dev, 0, derivatives, 0, dev.length);
+    }
+
+    /**
+     * 
+     * @return the log likelihood
+     */
+	public double getLogli() {
+		return logli;
+	}
+
+	/**
+	 * 
+	 * @return the derivative
+	 */
+	public double[] getDerivatives() {
+		return derivatives;
+	}
 }
