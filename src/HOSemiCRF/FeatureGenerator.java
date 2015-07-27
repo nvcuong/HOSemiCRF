@@ -731,4 +731,12 @@ public class FeatureGenerator {
 	public Params getParams() {
 		return params;
 	}
+	
+	/**
+	 * 
+	 * @return the dimension of features 
+	 */
+	public int getFeatureSize(){
+		return featureMap.size();
+	}
 }
