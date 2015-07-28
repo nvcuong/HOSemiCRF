@@ -21,7 +21,9 @@ package HOSemiCRF;
 
 import java.io.*;
 import java.util.*;
-import edu.stanford.nlp.optimization.*;
+
+import optimization.FirstOrderDiffFunction;
+import optimization.SVRGMinimizer;
 import Parallel.*;
 
 /**
@@ -48,9 +50,14 @@ public class HighOrderSemiCRF {
      * @param data Training data
      */
     public void train(ArrayList<DataSequence> data) {
-        QNMinimizer qn = new QNMinimizer();
-        Function df = new Function(featureGen, data);
-        lambda = qn.minimize(df, featureGen.params.epsForConvergence, lambda, featureGen.params.maxIters);
+    	// use library to do minimization
+//        QNMinimizer qn = new QNMinimizer();
+//        Function df = new Function(featureGen, data);
+//        lambda = qn.minimize(df, featureGen.params.epsForConvergence, lambda, featureGen.params.maxIters);
+        
+        FirstOrderDiffFunction func = new FirstOrderDiffFunction(featureGen, data);
+        SVRGMinimizer svrg = new SVRGMinimizer();
+        lambda = svrg.minimize(func, lambda, featureGen.params.getLearningRate(), featureGen.params.maxIters, featureGen.params.epsForConvergence);
     }
 
     /**
