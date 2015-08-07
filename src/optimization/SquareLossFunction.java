@@ -98,4 +98,10 @@ public class SquareLossFunction extends AbstractSVRGFunction{
 		
 		return result;
 	}
+
+	@Override
+	public double[][] takeEachDerivative(double[] w) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
