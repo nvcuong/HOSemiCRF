@@ -26,8 +26,8 @@ package HOSemiCRF;
  */
 public class Loglikelihood {
 
-    double logli; // Loglikelihood value
-    double derivatives[]; // Loglikelihood derivatives
+    public double logli; // Loglikelihood value
+    public double derivatives[]; // Loglikelihood derivatives
 
     /**
      * Construct a loglikelihood with a given number of features.
