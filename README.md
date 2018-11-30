@@ -1,4 +1,4 @@
-This is a source code for High-order Semi-Markov Conditional Random Field model
+Source code for High-order Semi-Markov Conditional Random Field model
 
 === WARNING ===
 
