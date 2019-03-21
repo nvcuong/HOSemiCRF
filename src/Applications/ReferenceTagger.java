@@ -32,7 +32,7 @@ public class ReferenceTagger {
     public DataSet readTagged(String filename) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
-        ArrayList td = new ArrayList();
+        ArrayList<DataSequence> td = new ArrayList<>();
         ArrayList<String> inps = new ArrayList<String>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;
@@ -99,9 +99,9 @@ public class ReferenceTagger {
     /**
      * Train the high-order semi-CRF.
      */
-    public void train() throws Exception {
+    public void train(String trainFilename) throws Exception {
         // Set training file name and create output directory
-        String trainFilename = "ref.train";
+//        String trainFilename = "ref.train";
         File dir = new File("learntModels/");
         dir.mkdirs();
         
@@ -123,7 +123,7 @@ public class ReferenceTagger {
     /**
      * Test the high-order semi-CRF.
      */
-    public void test() throws Exception {
+    public void test(String testFilename) throws Exception {
     	// Read label map, features, and CRF model
         labelmap.read("learntModels/labelmap");
         createFeatureGenerator();
@@ -133,7 +133,7 @@ public class ReferenceTagger {
         
         // Run Viterbi algorithm
         System.out.print("Running Viterbi...");
-        String testFilename = "ref.test";
+//        String testFilename = "ref.test";
         DataSet testData = readTagged(testFilename);
         long startTime = System.currentTimeMillis();
         highOrderSemiCrfModel.runViterbi(testData.getSeqList());
@@ -159,12 +159,12 @@ public class ReferenceTagger {
     public static void main(String argv[]) throws Exception {
         ReferenceTagger refTagger = new ReferenceTagger(argv[1]);
         if (argv[0].toLowerCase().equals("all")) {
-            refTagger.train();
-            refTagger.test();
+            refTagger.train(argv[2]);
+            refTagger.test(argv[3]);
         } else if (argv[0].toLowerCase().equals("train")) {
-            refTagger.train();
+            refTagger.train(argv[2]);
         } else if (argv[0].toLowerCase().equals("test")) {
-            refTagger.test();
+            refTagger.test(argv[3]);
         }
     }
 }

@@ -25,7 +25,7 @@ public class OCR {
     public DataSet readTagged(String filename, int trainFold, boolean isTraining) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
 
-        ArrayList td = new ArrayList();
+        ArrayList<DataSequence> td = new ArrayList<>();
         ArrayList<CharDetails> inps = new ArrayList<CharDetails>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;

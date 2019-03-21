@@ -13,7 +13,7 @@ public class Viterbi implements Schedulable {
     int curID; // Current task ID (for parallelization)
     FeatureGenerator featureGen; // Feature generator
     double[] lambda; // Lambda vector
-    ArrayList data; // List of training sequences
+    ArrayList<DataSequence> data; // List of training sequences
     final int BASE = 1; // Base of the logAlpha array
 
     /**
@@ -22,7 +22,7 @@ public class Viterbi implements Schedulable {
      * @param lambda Lambda vector
      * @param data Training data
      */
-    public Viterbi(FeatureGenerator featureGen, double[] lambda, ArrayList data) {
+    public Viterbi(FeatureGenerator featureGen, double[] lambda, ArrayList<DataSequence> data) {
         curID = -1;
         this.featureGen = featureGen;
         this.lambda = lambda;

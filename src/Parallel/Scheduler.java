@@ -80,7 +80,7 @@ public class Scheduler {
 
             double[] ans;
             int curID;
-            static final int N = 1000000;
+//            static final int N = 1000000;
             int nTasks;
 
             public SimpleTask(int nTasks) {
@@ -89,7 +89,8 @@ public class Scheduler {
                 ans = new double[2];
             }
 
-            public void showResult() {
+            @SuppressWarnings("unused")
+			public void showResult() {
                 System.out.println(ans[0] + " " + ans[1]);
             }
 
@@ -110,7 +111,8 @@ public class Scheduler {
                 return result;
             }
 
-            public int getNumCompletedTasks() {
+            @SuppressWarnings("unused")
+			public int getNumCompletedTasks() {
                 return curID;
             }
 

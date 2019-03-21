@@ -1,6 +1,7 @@
 package HOCRF;
 
 import java.util.*;
+
 import Parallel.*;
 
 /**
@@ -11,7 +12,7 @@ import Parallel.*;
 public class SentenceFeatGenerator implements Schedulable {
 
     int curID; // Current task ID (for parallelization)
-    ArrayList trainData; // List of training sequences
+    ArrayList<DataSequence> trainData; // List of training sequences
     FeatureGenerator featGen; // Feature generator
 
     /**
@@ -19,7 +20,7 @@ public class SentenceFeatGenerator implements Schedulable {
      * @param data Training data
      * @param fgen Feature generator
      */
-    public SentenceFeatGenerator(ArrayList data, FeatureGenerator fgen) {
+    public SentenceFeatGenerator(ArrayList<DataSequence> data, FeatureGenerator fgen) {
         curID = -1;
         trainData = data;
         featGen = fgen;
@@ -30,8 +31,9 @@ public class SentenceFeatGenerator implements Schedulable {
      * @param taskID Index of the training sequence
      * @return The updated sequence
      */
-    public Object compute(int taskID) {
-        DataSequence seq = (DataSequence) trainData.get(taskID);
+    @SuppressWarnings("unchecked")
+	public Object compute(int taskID) {
+        DataSequence seq = trainData.get(taskID);
         seq.features = new ArrayList[seq.length()][featGen.patternMap.size()];
         
         for (int pos = 0; pos < seq.length(); pos++) {

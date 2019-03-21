@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * Parameters class
  * @author Nguyen Viet Cuong
+ * @author tndoan
  */
 public class Params {
 
@@ -15,6 +16,11 @@ public class Params {
     int maxSegment = -1; // Maximum segment length
     double invSigmaSquare = 1.0; // Inverse of Sigma Squared
     double epsForConvergence = 0.001; // Convergence Precision
+    
+    /**
+     * learning rate for first order minimizer
+     */
+    double learningRate = 0.1; // 
 
     /**
      * Construct a parameters object.
@@ -40,6 +46,65 @@ public class Params {
         if ((value = options.getProperty("epsForConvergence")) != null) {
             epsForConvergence = Double.parseDouble(value);
         }
+        if ((value = options.getProperty("learningRate")) != null){
+        	learningRate = Double.parseDouble(value);
+        }
         numLabels = nl;
     }
+
+    /**
+     * 
+     * @return
+     */
+	public int getNumLabels() {
+		return numLabels;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMaxIters() {
+		return maxIters;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getNumthreads() {
+		return numthreads;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMaxSegment() {
+		return maxSegment;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double getInvSigmaSquare() {
+		return invSigmaSquare;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public double getEpsForConvergence() {
+		return epsForConvergence;
+	}
+
+	/**
+	 * 
+	 * @return the value of learning rate
+	 */
+	public double getLearningRate() {
+		return learningRate;
+	}
 }

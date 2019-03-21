@@ -11,7 +11,7 @@ public class LogliComputer implements Schedulable {
 
     int curID; // Current task ID (for parallelization)
     FeatureGenerator featureGen; // Feature generator
-    ArrayList trainData; // List of training sequences
+    ArrayList<DataSequence> trainData; // List of training sequences
     double[] lambda; // Lambda vector
     Loglikelihood logli; // Loglikelihood value and derivatives
     final int BASE = 1; // Base of the logAlpha array
@@ -23,7 +23,7 @@ public class LogliComputer implements Schedulable {
      * @param td List of training sequences
      * @param loglh Initial loglikelihood and its derivatives (partially computed from class Function)
      */
-    public LogliComputer(double[] lambdaValues, FeatureGenerator fgen, ArrayList td, Loglikelihood loglh) {
+    public LogliComputer(double[] lambdaValues, FeatureGenerator fgen, ArrayList<DataSequence> td, Loglikelihood loglh) {
         curID = -1;
         featureGen = fgen;
         trainData = td;
@@ -38,7 +38,7 @@ public class LogliComputer implements Schedulable {
      */
     public Object compute(int taskID) {
         Loglikelihood res = new Loglikelihood(lambda.length);
-        DataSequence seq = (DataSequence) trainData.get(taskID);
+        DataSequence seq = trainData.get(taskID);
         
         addFeatureScores(seq, res);
         double[][] logAlpha = computeLogAlpha(seq);

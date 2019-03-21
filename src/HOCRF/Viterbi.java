@@ -13,7 +13,7 @@ public class Viterbi implements Schedulable {
     int curID; // Current task ID (for parallelization)
     FeatureGenerator featureGen; // Feature generator
     double[] lambda; // Lambda vector
-    ArrayList data; // List of testing sequences
+    ArrayList<DataSequence> data; // List of testing sequences
     final int BASE = 1; // Base of the logAlpha array
 
     /**
@@ -22,7 +22,7 @@ public class Viterbi implements Schedulable {
      * @param lambda Lambda vector
      * @param data Testing data
      */
-    public Viterbi(FeatureGenerator featureGen, double[] lambda, ArrayList data) {
+    public Viterbi(FeatureGenerator featureGen, double[] lambda, ArrayList<DataSequence> data) {
         curID = -1;
         this.featureGen = featureGen;
         this.lambda = lambda;
@@ -35,7 +35,7 @@ public class Viterbi implements Schedulable {
      * @return The updated sequence
      */
     public Object compute(int taskID) {
-        DataSequence seq = (DataSequence) data.get(taskID);
+        DataSequence seq = data.get(taskID);
         double maxScore[][] = new double[seq.length() + 1][featureGen.forwardStateMap.size()];
         String trace[][] = new String[seq.length()][featureGen.forwardStateMap.size()];
 

@@ -30,7 +30,7 @@ public class PuncConverter {
     static DataSet readInFile(String filename, LabelMap labelmap) throws Exception {
         BufferedReader in = new BufferedReader(new FileReader(filename));
         
-        ArrayList td = new ArrayList();
+        ArrayList<DataSequence> td = new ArrayList<>();
         ArrayList<String> inps = new ArrayList<String>();
         ArrayList<String> labels = new ArrayList<String>();
         String line;

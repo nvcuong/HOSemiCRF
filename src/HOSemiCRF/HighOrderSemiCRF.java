@@ -2,7 +2,9 @@ package HOSemiCRF;
 
 import java.io.*;
 import java.util.*;
-import edu.stanford.nlp.optimization.*;
+
+import optimization.FirstOrderDiffFunction;
+import optimization.SVRGMinimizer;
 import Parallel.*;
 
 /**
@@ -28,17 +30,22 @@ public class HighOrderSemiCRF {
      * Train a high-order semi-CRF from data.
      * @param data Training data
      */
-    public void train(ArrayList data) {
-        QNMinimizer qn = new QNMinimizer();
-        Function df = new Function(featureGen, data);
-        lambda = qn.minimize(df, featureGen.params.epsForConvergence, lambda, featureGen.params.maxIters);
+    public void train(ArrayList<DataSequence> data) {
+    	// use library to do minimization
+//        QNMinimizer qn = new QNMinimizer();
+//        Function df = new Function(featureGen, data);
+//        lambda = qn.minimize(df, featureGen.params.epsForConvergence, lambda, featureGen.params.maxIters);
+        
+        FirstOrderDiffFunction func = new FirstOrderDiffFunction(featureGen, data);
+        SVRGMinimizer svrg = new SVRGMinimizer();
+        lambda = svrg.minimize(func, lambda, featureGen.params.getLearningRate(), featureGen.params.maxIters, featureGen.params.epsForConvergence);
     }
 
     /**
      * Run Viterbi algorithm on testing data.
      * @param data Testing data
      */
-    public void runViterbi(ArrayList data) throws Exception {
+    public void runViterbi(ArrayList<DataSequence> data) throws Exception {
         Viterbi tester = new Viterbi(featureGen, lambda, data);
         Scheduler sch = new Scheduler(tester, featureGen.params.numthreads, Scheduler.DYNAMIC_NEXT_AVAILABLE);
         sch.run();
